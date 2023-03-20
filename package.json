@@ -1,0 +1,19 @@
+{
+  "name": "online-shop",
+  "version": "1.0.0",
+  "description": "Express-MongoDB Online Shopping Website",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saifsweelam/online-shop.git"
+  },
+  "author": "Seif El-Din Sweilam",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/saifsweelam/online-shop/issues"
+  },
+  "homepage": "https://github.com/saifsweelam/online-shop#readme"
+}
