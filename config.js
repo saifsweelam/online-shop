@@ -11,7 +11,10 @@ module.exports = {
     static: {
         dir: path.join(__dirname, 'assets')
     },
+    thumbnails: {
+        dir: path.join(__dirname, 'thumbnails')
+    },
     db: {
         uri: process.env.SHOP_DB_URI || 'mongodb://127.0.0.1:27017/online-shop'
-    }
+    },
 }
