@@ -6,3 +6,7 @@ exports.getProducts = (category) => {
     category && (options.category = category);
     return db.connect(() => Product.find(options));
 }
+
+exports.getProductById = (id) => {
+    return db.connect(() => Product.findById(id));
+}
