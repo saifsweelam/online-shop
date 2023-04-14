@@ -1,20 +1,24 @@
 <%- include('../parts/header.ejs') %>
 
 <div class="container">
-    <div class="row">
-        <div class="col col-12 col-md-6">
-            <img src="/<%= product.image %>" alt="<%= product.name %>" class="w-100">
-            <form action="/cart" method="POST">
-                <input type="number" name="quantity" value="1" class="form-control" placeholder="Quantity" required>
-                <input type="submit" value="Add to Cart" class="btn btn-primary w-100 my-2">
-            </form>
+    <% if (product) { %>
+        <div class="row">
+            <div class="col col-12 col-md-6">
+                <img src="/<%= product.image %>" alt="<%= product.name %>" class="w-100">
+                <form action="/cart" method="POST">
+                    <input type="number" name="quantity" value="1" class="form-control" placeholder="Quantity" required>
+                    <input type="submit" value="Add to Cart" class="btn btn-primary w-100 my-2">
+                </form>
+            </div>
+            <div class="col col-12 col-md-6 p-3">
+                <h3><%= product.name %></h3>
+                <h4>Price: <%= product.price %>$</h4>
+                <p><%= product.description %></p>
+            </div>
         </div>
-        <div class="col col-12 col-md-6 p-3">
-            <h3><%= product.name %></h3>
-            <h4>Price: <%= product.price %>$</h4>
-            <p><%= product.description %></p>
-        </div>
-    </div>
+    <% } else { %>
+        <div class="my-3 alert alert-danger">Can't find this specific product</div>
+    <% } %>
 </div>
 
 <%- include('../parts/footer.ejs') %>
