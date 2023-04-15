@@ -10,6 +10,9 @@ exports.connect = (action) => {
             mongoose.disconnect();
             resolve(result);
         })
-        .catch(err => reject(err));
+        .catch(err => {
+            mongoose.disconnect();
+            reject(err);
+        });
     })
 }

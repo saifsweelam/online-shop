@@ -8,4 +8,11 @@ const productSchema = new mongoose.Schema({
     price: Number
 })
 
+const userSchema = new mongoose.Schema({
+    username: String,
+    email: String,
+    password: String
+})
+
 exports.Product = mongoose.model('Product', productSchema);
+exports.User = mongoose.model('User', userSchema);
