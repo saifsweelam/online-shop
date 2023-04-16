@@ -23,6 +23,10 @@ app.use(express.static(config.thumbnails.dir));
 
 // Session
 app.use(session(config.session));
+app.use(({ session }, res, next) => {
+    res.locals.session = session; // Make session accessible in ejs templates
+    next();
+})
 
 // Router Pathes
 app.use('/', homeRouter);
