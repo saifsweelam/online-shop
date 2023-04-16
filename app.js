@@ -1,6 +1,7 @@
 const express = require('express');
 const config = require('./config');
 const session = require('express-session');
+const flash = require('connect-flash');
 
 // Initialize App
 const app = express();
@@ -26,7 +27,18 @@ app.use(session(config.session));
 app.use(({ session }, res, next) => {
     res.locals.session = session; // Make session accessible in ejs templates
     next();
-})
+});
+
+// Flash Messages
+app.use(flash());
+app.use((req, res, next) => {
+    res.locals.flashed = {
+        errors: req.flash('error'),
+        warnings: req.flash('warning'),
+        successes: req.flash('success'),
+    };
+    next();
+});
 
 // Router Pathes
 app.use('/', homeRouter);

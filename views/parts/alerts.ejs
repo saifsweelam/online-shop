@@ -1,0 +1,11 @@
+<% for (let error of flashed.errors) { %>
+    <div class="alert alert-danger"><%= error %></div>
+<% } %>
+
+<% for (let warning of flashed.warnings) { %>
+    <div class="alert alert-warning"><%= warning %></div>
+<% } %>
+
+<% for (let success of flashed.successes) { %>
+    <div class="alert alert-success"><%= success %></div>
+<% } %>

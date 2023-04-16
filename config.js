@@ -12,11 +12,11 @@ module.exports = new function() {
         engine: 'ejs',
         dir: path.join(__dirname, 'views')
     }
-    
+
     this.static = {
         dir: path.join(__dirname, 'assets')
     }
-    
+
     this.thumbnails = {
         dir: path.join(__dirname, 'thumbnails')
     }

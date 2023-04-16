@@ -6,21 +6,24 @@ exports.getLogin = (req, res, next) => {
 }
 
 /** @type {import("express").RequestHandler} */
-exports.postLogin = ({ session, body }, res, next) => {
-    if (!(body.email && body.password)) return res.redirect('/login');
+exports.postLogin = (req, res, next) => {
+    if (!(req.body.email && req.body.password)) {
+        req.flash('error', 'Invalid or missing form data');
+        return res.redirect('/login');
+    }
 
-    usersModel.getUser(body.email)
+    usersModel.getUser(req.body.email)
     .then(user => {
         if (!user) throw new Error('This user doesn\'t exist');
 
-        return usersModel.validatePassword(user, body.password);
+        return usersModel.validatePassword(user, req.body.password);
     })
     .then(user => {
-        session.userId = user._id;
+        req.session.userId = user._id;
         res.redirect('/');
     })
     .catch((err) => {
-        console.log(err);
+        req.flash('error', err.toString());
         res.redirect('/login');
     })
 }
@@ -31,8 +34,12 @@ exports.getSignup = (req, res, next) => {
 }
 
 /** @type {import("express").RequestHandler} */
-exports.postSignup = ({ body }, res, next) => {
-    if (!(body.username && body.email && body.password && body.passwordConfirm && body.password === body.passwordConfirm)) return res.redirect('/signup');
+exports.postSignup = (req, res, next) => {
+    let body = req.body;
+    if (!(body.username && body.email && body.password && body.passwordConfirm && body.password === body.passwordConfirm)) {
+        req.flash('error', 'Invalid or missing form data');
+        return res.redirect('/signup');
+    }
 
     usersModel.getUser(body.email)
     .then((user) => {
@@ -41,9 +48,12 @@ exports.postSignup = ({ body }, res, next) => {
             return usersModel.createUser(body.username, body.email, body.password);
         }
     })
-    .then(() => res.redirect('/login'))
+    .then(() => {
+        req.flash('success', 'User was created successfully')
+        res.redirect('/login');
+    })
     .catch((err) => {
-        console.error(err)
+        req.flash('error', err.toString());
         res.redirect('/signup');
     });
 }
