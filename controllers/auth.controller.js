@@ -47,3 +47,10 @@ exports.postSignup = ({ body }, res, next) => {
         res.redirect('/signup');
     });
 }
+
+/** @type {import("express").RequestHandler} */
+exports.logout = ({ session }, res, next) => {
+    session.destroy(() => {
+        res.redirect('/');
+    })
+}
