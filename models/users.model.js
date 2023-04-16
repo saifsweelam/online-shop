@@ -18,3 +18,11 @@ exports.createUser = (username, email, password) => {
         return db.connect(() => user.save());
     })
 }
+
+exports.validatePassword = (user, password) => {
+    return bcrypt.compare(password, user.password)
+    .then(same => {
+        if (!same) throw new Error('The password entered is incorrect.');
+        return user;
+    })
+}

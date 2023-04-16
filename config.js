@@ -1,20 +1,37 @@
 const path = require('path');
+const crypto = require('crypto');
+const session = require('express-session');
+const SessionStore = require('connect-mongodb-session')(session);
 
-module.exports = {
-    deploy: {
+module.exports = new function() {
+    this.deploy = {
         port: 3000
-    },
-    views: {
+    }
+
+    this.views = {
         engine: 'ejs',
         dir: path.join(__dirname, 'views')
-    },
-    static: {
+    }
+    
+    this.static = {
         dir: path.join(__dirname, 'assets')
-    },
-    thumbnails: {
+    }
+    
+    this.thumbnails = {
         dir: path.join(__dirname, 'thumbnails')
-    },
-    db: {
+    }
+
+    this.db = {
         uri: process.env.SHOP_DB_URI || 'mongodb://127.0.0.1:27017/online-shop'
-    },
+    }
+
+    this.session = {
+        secret: crypto.randomBytes(20).toString('hex'),
+        saveUninitialized: false,
+        resave: false,
+        store: new SessionStore({
+            uri: this.db.uri,
+            collection: 'sessions'
+        })
+    }
 }

@@ -1,5 +1,6 @@
 const express = require('express');
 const config = require('./config');
+const session = require('express-session');
 
 // Initialize App
 const app = express();
@@ -19,6 +20,9 @@ app.use(express.urlencoded({extended: true}));
 // Static Assets
 app.use(express.static(config.static.dir));
 app.use(express.static(config.thumbnails.dir));
+
+// Session
+app.use(session(config.session));
 
 // Router Pathes
 app.use('/', homeRouter);

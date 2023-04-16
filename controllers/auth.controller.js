@@ -6,6 +6,26 @@ exports.getLogin = (req, res, next) => {
 }
 
 /** @type {import("express").RequestHandler} */
+exports.postLogin = ({ session, body }, res, next) => {
+    if (!(body.email && body.password)) return res.redirect('/login');
+
+    usersModel.getUser(body.email)
+    .then(user => {
+        if (!user) throw new Error('This user doesn\'t exist');
+
+        return usersModel.validatePassword(user, body.password);
+    })
+    .then(user => {
+        session.userId = user._id;
+        res.redirect('/');
+    })
+    .catch((err) => {
+        console.log(err);
+        res.redirect('/login');
+    })
+}
+
+/** @type {import("express").RequestHandler} */
 exports.getSignup = (req, res, next) => {
     res.render('auth/signup');
 }
