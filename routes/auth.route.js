@@ -2,12 +2,13 @@ const router = require('express').Router();
 
 const authCtrl = require('../controllers/auth.controller');
 const validators = require('../helpers/validators');
+const permissions = require('../helpers/permissions');
 
-router.get('/login', authCtrl.getLogin);
-router.post('/login', ...validators.login, authCtrl.postLogin);
+router.get('/login', permissions.requiresNoAuth, authCtrl.getLogin);
+router.post('/login', permissions.requiresNoAuth, ...validators.login, authCtrl.postLogin);
 
-router.get('/signup', authCtrl.getSignup);
-router.post('/signup', ...validators.signup, authCtrl.postSignup);
+router.get('/signup', permissions.requiresNoAuth, authCtrl.getSignup);
+router.post('/signup', permissions.requiresNoAuth, ...validators.signup, authCtrl.postSignup);
 
 router.all('/logout', authCtrl.logout);
 

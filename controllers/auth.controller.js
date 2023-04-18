@@ -14,7 +14,8 @@ exports.postLogin = (req, res, next) => {
         return res.redirect('/login');
     }
 
-    usersModel.getUser(req.body.email)
+    usersModel
+        .getUser(req.body.email)
         .then(user => {
             if (!user) throw new Error('This user doesn\'t exist');
 
