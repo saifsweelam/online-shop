@@ -6,11 +6,12 @@ exports.getHome = ({ query }, res, next) => {
     let category = query.category;
     category === 'all' && (category = undefined);
 
-    productsModel.getProducts(category)
-    .then(products => {
-        res.render('home/index', {
-            products: products
-        });
-    })
+    productsModel
+        .getProducts(category)
+        .then(products => {
+            res.render('home/index', {
+                products: products
+            });
+        })
 
 }

@@ -1,12 +1,15 @@
-const check = require('express-validator').check;
+const { check, param } = require('express-validator');
 
 exports.login = [
-    check('email').notEmpty().withMessage('Email is required'),
-    check('password').notEmpty().withMessage('Password is required'),
+    check('email')
+        .notEmpty().withMessage('Email is required'),
+    check('password')
+        .notEmpty().withMessage('Password is required'),
 ];
 
 exports.signup = [
-    check('username').notEmpty().withMessage('Username is required'),
+    check('username')
+        .notEmpty().withMessage('Username is required'),
     check('email')
         .notEmpty().withMessage('Email is required')
         .bail()
@@ -19,5 +22,35 @@ exports.signup = [
             if (value === req.body.passwordConfirm) return true;
             throw new Error('Passwords mismatch');
         }),
-    check('passwordConfirm').notEmpty().withMessage('Password Confirmation is required'),
+    check('passwordConfirm')
+        .notEmpty().withMessage('Password Confirmation is required'),
+];
+
+exports.createCartItem = [
+    check('productId')
+        .notEmpty().withMessage('You have to specify the product ID')
+        .bail()
+        .isMongoId().withMessage('The Product ID is invalid'),
+    check('quantity')
+        .notEmpty().withMessage('You have to specify the quantity')
+        .bail()
+        .isLength({min: 1})
+];
+
+exports.updateCartItem = [
+    param('itemId')
+        .notEmpty().withMessage('You have to specify the Cart Item ID')
+        .bail()
+        .isMongoId().withMessage('The Cart Item ID is invalid'),
+    check('quantity')
+        .notEmpty().withMessage('You have to specify the quantity')
+        .bail()
+        .isLength({min: 1})
+];
+
+exports.deleteCartItem = [
+    param('itemId')
+        .notEmpty().withMessage('You have to specify the Cart Item ID')
+        .bail()
+        .isMongoId().withMessage('The Cart Item ID is invalid')
 ];

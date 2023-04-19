@@ -1,3 +1,6 @@
+const { default: mongoose } = require('mongoose');
+const cartItemsModel = require('../models/cart-items.model');
+
 /** @type {import("express").RequestHandler} */
 exports.requiresAuth = ({ session }, res, next) => {
     if (!session.userId) return res.redirect('/login');
@@ -9,3 +12,22 @@ exports.requiresNoAuth = ({ session }, res, next) => {
     if (session.userId) return res.redirect('/');
     next();
 }
+
+/** @type {import("express").RequestHandler} */
+exports.accessCartItem = (req, res, next) => {
+    cartItemsModel
+        .getCartItemById(req.params.itemId)
+        .then(item => {
+            if (!item) {
+                req.flash('error', 'This Cart Item doesn\'t exist');
+                return res.redirect('back');
+            }
+
+            if (!item.userId.equals(req.session.userId)) {
+                req.flash('error', 'You don\'t have access to this item');
+                return res.redirect('back');
+            }
+
+            next();
+        })
+};

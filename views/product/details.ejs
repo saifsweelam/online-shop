@@ -1,11 +1,14 @@
 <%- include('../parts/header.ejs') %>
 
 <div class="container">
+    <%- include('../parts/alerts.ejs') %>
+
     <% if (product) { %>
         <div class="row">
             <div class="col col-12 col-md-6">
                 <img src="/<%= product.image %>" alt="<%= product.name %>" class="w-100">
                 <form action="/cart" method="POST">
+                    <input type="hidden" name="productId" value="<%= product._id %>">
                     <input type="number" name="quantity" value="1" class="form-control" placeholder="Quantity" required>
                     <input type="submit" value="Add to Cart" class="btn btn-primary w-100 my-2">
                 </form>

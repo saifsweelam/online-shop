@@ -13,6 +13,8 @@
         <input type="submit" value="Filter" class="btn btn-primary my-2">
     </form>
 
+    <%- include('../parts/alerts.ejs') %>
+
     <div class="row">
         <% if (products.length) { %>
             <% for (let product of products) { %>
@@ -30,6 +32,7 @@
                         </ul>
                         <div class="card-body">
                             <form action="/cart" method="POST">
+                                <input type="hidden" name="productId" value="<%= product._id %>">
                                 <input type="number" name="quantity" value="1" class="form-control" placeholder="Quantity" required>
                                 <input type="submit" value="Add to Cart" class="btn btn-primary w-100 my-2">
                             </form>
