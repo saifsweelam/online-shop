@@ -54,3 +54,24 @@ exports.deleteCartItem = [
         .bail()
         .isMongoId().withMessage('The Cart Item ID is invalid')
 ];
+
+exports.submitOrder = [
+    check('itemId')
+        .notEmpty().withMessage('You have to specify the Cart Item ID')
+        .bail()
+        .isMongoId().withMessage('The Cart Item ID is invalid'),
+    check('address')
+        .notEmpty().withMessage('You have to specify your delivery address')
+];
+
+exports.submitOrders = [
+    check('address')
+        .notEmpty().withMessage('You have to specify your delivery address')
+]
+
+exports.deleteOrder = [
+    param('orderId')
+        .notEmpty().withMessage('You have to specify the Order ID')
+        .bail()
+        .isMongoId().withMessage('The Order ID is invalid'),
+];

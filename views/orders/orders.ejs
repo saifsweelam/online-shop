@@ -1,0 +1,45 @@
+<%- include('../parts/header.ejs') %>
+
+<% if (orders.length) { %>
+    <div class="p-3">
+        <%- include('../parts/alerts.ejs') %>
+
+        <table class="my-2 table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Address</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let i = 0; i < orders.length; i++) { %>
+                    <% let order = orders[i] %>
+                    <tr>
+                        <th scope="row"><%= i+1 %></th>
+                        <td><%= order.product.name %></td>
+                        <td><%= order.quantity %></td>
+                        <td>$<%= order.quantity * order.product.price %></td>
+                        <td><%= order.address %></td>
+                        <td>
+                            <form action="/orders/<%= order._id %>/cancel" method="post">
+                                <input type="submit" class="btn btn-danger" value="Cancel">
+                            </form>
+                        </td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+    </div>
+<% } else { %>
+    <div class="container my-3">
+        <%- include('../parts/alerts.ejs') %>
+
+        <h2 class="display-1">No orders to show</h2>
+    </div>
+<% } %>
+
+<%- include('../parts/footer.ejs') %>

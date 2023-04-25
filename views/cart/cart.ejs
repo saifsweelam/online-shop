@@ -31,31 +31,37 @@
                                     <p><strong><%= item.product.name %></strong></p>
                                     <p><%= item.product.description %></p>
                                     <button type="submit" form="item<%= item._id %>Form" formaction="/cart/<%= item._id %>/update" class="btn btn-secondary">Update</button>
-                                    <button class="btn btn-primary">Order</button>
+                                    <button type="submit" form="item<%= item._id %>Form" formaction="/orders" class="btn btn-primary">Order</button>
                                     <button type="submit" form="item<%= item._id %>Form" formaction="/cart/<%= item._id %>/delete" class="btn btn-danger">Delete</button>
                                     <!-- Data -->
                                 </div>
 
                                 <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                                     <!-- Quantity -->
-                                    <div class="d-flex mb-4" style="max-width: 300px">
-                                        <button class="btn btn-primary px-3 me-2"
-                                            onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
-                                            -
-                                        </button>
+                                    <form method="POST" id="item<%= item._id %>Form">
+                                        <input type="hidden" name="itemId" value="<%= item._id %>">
 
-                                        <div class="form-outline">
-                                            <form method="POST" id="item<%= item._id %>Form">
+                                        <div class="d-flex mb-4" style="max-width: 300px">
+                                            <button type="button" class="btn btn-primary px-3 me-2"
+                                                onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                                                -
+                                            </button>
+
+                                            <div class="form-outline">
                                                 <input min="1" name="quantity" value="<%= item.quantity %>" type="number"
                                                     class="form-control" />
-                                            </form>
+                                                </div>
+                                                
+                                                <button type="button" class="btn btn-primary px-3 ms-2"
+                                                onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                                                +
+                                            </button>
                                         </div>
 
-                                        <button class="btn btn-primary px-3 ms-2"
-                                            onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
-                                            +
-                                        </button>
-                                    </div>
+                                        <div class="py-2">
+                                            <input class="form-control" type="text" name="address" placeholder="addresss">
+                                        </div>
+                                    </form>
                                     <!-- Quantity -->
 
                                     <!-- Price -->
@@ -101,21 +107,24 @@
                                 </li>
                             </ul>
 
-                            <button type="button" class="btn btn-primary btn-lg btn-block">
-                                Order All
-                            </button>
+                            <form action="/orders/all" method="post">
+                                <input class="form-control" type="text" name="address" placeholder="addresss">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                    Order All
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <% } else { %>
-        <div class="container my-3">
-            <%- include('../parts/alerts.ejs') %>
+<% } else { %>
+    <div class="container my-3">
+        <%- include('../parts/alerts.ejs') %>
 
-            <h2 class="display-1">No items to show</h2>
-        </div>
-    <% } %>
+        <h2 class="display-1">No items to show</h2>
+    </div>
+<% } %>
 
 <%- include('../parts/footer.ejs') %>

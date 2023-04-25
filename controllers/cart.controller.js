@@ -33,7 +33,7 @@ exports.postCart = (req, res, next) => {
         .then(product => {
             if (!product) throw new Error('This product doesn\'t exist');
 
-            return cartItemsModel.addCartItem(req.session.userId, product._id, req.body.quantity);
+            return cartItemsModel.addCartItem(req.session.userId, product, req.body.quantity);
         })
         .then(() => {
             req.flash('success', 'Cart Item Added Successfully');

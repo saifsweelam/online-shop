@@ -1,5 +1,4 @@
 const CartItem = require('./schemas').CartItem;
-const { default: mongoose } = require('mongoose');
 const db = require('./db');
 
 exports.getCartItemById = (itemId) => {
@@ -10,10 +9,10 @@ exports.getCartItemByUserAndProduct = (userId, productId) => {
     return db.connect(() => CartItem.findOne({userId: userId, productId: productId}));
 }
 
-exports.addCartItem = (userId, productId, quantity) => {
+exports.addCartItem = (userId, product, quantity) => {
     let cartItem = new CartItem({
         userId: userId,
-        productId: productId,
+        product: product,
         quantity: quantity,
         timeAdded: Date.now()
     });
@@ -34,18 +33,9 @@ exports.deleteCartItem = (itemId) => {
 }
 
 exports.getCartByUserId = (userId) => {
-    return db.connect(() => {
-        return CartItem.aggregate([
-            { $match: { userId: new mongoose.Types.ObjectId(userId) } },
-            {
-                $lookup: {
-                    from: 'products',
-                    localField: 'productId',
-                    foreignField: '_id',
-                    as: 'product'
-                }
-            },
-            { $unwind: '$product' }
-        ])
-    });
+    return db.connect(() => CartItem.find({userId: userId}));
+}
+
+exports.emptyCartByUserId = (userId) => {
+    return db.connect(() => CartItem.deleteMany({userId: userId}));
 }

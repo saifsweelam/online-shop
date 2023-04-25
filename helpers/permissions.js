@@ -1,5 +1,5 @@
-const { default: mongoose } = require('mongoose');
 const cartItemsModel = require('../models/cart-items.model');
+const ordersModel = require('../models/orders.model');
 
 /** @type {import("express").RequestHandler} */
 exports.requiresAuth = ({ session }, res, next) => {
@@ -31,3 +31,22 @@ exports.accessCartItem = (req, res, next) => {
             next();
         })
 };
+
+/** @type {import("express").RequestHandler} */
+exports.accessOrder = (req, res, next) => {
+    ordersModel
+        .getOrderById(req.params.orderId)
+        .then((order) => {
+            if (!order) {
+                req.flash('error', 'This Order doesn\'t exist');
+                return res.redirect('back');
+            }
+
+            if (!order.userId.equals(req.session.userId)) {
+                req.flash('error', 'You don\'t have access to this Order');
+                return res.redirect('back');
+            }
+
+            next();
+        })
+}

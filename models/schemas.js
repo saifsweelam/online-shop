@@ -13,12 +13,20 @@ const cartItemSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
     },
-    productId: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Product'
-    },
+    product: productSchema,
     quantity: Number,
     timeAdded: Date
+})
+
+const orderSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    },
+    product: productSchema,
+    quantity: Number,
+    timeAdded: Date,
+    address: String
 })
 
 const userSchema = new mongoose.Schema({
@@ -29,4 +37,5 @@ const userSchema = new mongoose.Schema({
 
 exports.Product = mongoose.model('Product', productSchema);
 exports.CartItem = mongoose.model('CartItem', cartItemSchema);
+exports.Order = mongoose.model('Order', orderSchema);
 exports.User = mongoose.model('User', userSchema);
