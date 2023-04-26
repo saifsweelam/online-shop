@@ -1,6 +1,5 @@
 const ordersModel = require('../models/orders.model');
 const cartItemsModel = require('../models/cart-items.model');
-const validationResult = require('express-validator').validationResult;
 
 /** @type {import("express").RequestHandler} */
 exports.getOrders = (req, res, next) => {
@@ -15,12 +14,6 @@ exports.getOrders = (req, res, next) => {
 
 /** @type {import("express").RequestHandler} */
 exports.postOrder = (req, res, next) => {
-    let validation = validationResult(req);
-    if (!validation.isEmpty()) {
-        req.flash('error', validation.array().map(e => e.msg));
-        return res.redirect('back');
-    }
-
     cartItemsModel
         .getCartItemById(req.body.itemId)
         .then((item) => {
@@ -57,12 +50,6 @@ exports.postOrderAll = (req, res, next) => {
 
 /** @type {import("express").RequestHandler} */
 exports.postCancel = (req, res, next) => {
-    let validation = validationResult(req);
-    if (!validation.isEmpty()) {
-        req.flash('error', validation.array().map(e => e.msg));
-        return res.redirect('back');
-    }
-
     ordersModel
         .deleteOrder(req.params.orderId)
         .then(() => {

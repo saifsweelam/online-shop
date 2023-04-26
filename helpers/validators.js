@@ -1,4 +1,4 @@
-const { check, param } = require('express-validator');
+const { check, param, validationResult } = require('express-validator');
 
 exports.login = [
     check('email')
@@ -34,7 +34,7 @@ exports.createCartItem = [
     check('quantity')
         .notEmpty().withMessage('You have to specify the quantity')
         .bail()
-        .isLength({min: 1})
+        .isInt({min: 1})
 ];
 
 exports.updateCartItem = [
@@ -45,7 +45,7 @@ exports.updateCartItem = [
     check('quantity')
         .notEmpty().withMessage('You have to specify the quantity')
         .bail()
-        .isLength({min: 1})
+        .isInt({min: 1})
 ];
 
 exports.deleteCartItem = [
@@ -75,3 +75,14 @@ exports.deleteOrder = [
         .bail()
         .isMongoId().withMessage('The Order ID is invalid'),
 ];
+
+/** @type {import("express").RequestHandler} */
+exports.requireValidation = (req, res, next) => {
+    let validation = validationResult(req);
+    if (!validation.isEmpty()) {
+        req.flash('error', validation.array().map(e => e.msg));
+        return res.redirect('back');
+    }
+
+    next();
+}

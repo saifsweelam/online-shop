@@ -1,6 +1,5 @@
 const cartItemsModel = require('../models/cart-items.model');
 const productsModel = require('../models/products.model');
-const validationResult = require('express-validator').validationResult;
 
 /** @type {import("express").RequestHandler} */
 exports.getCart = (req, res, next) => {
@@ -17,12 +16,6 @@ exports.getCart = (req, res, next) => {
 
 /** @type {import("express").RequestHandler} */
 exports.postCart = (req, res, next) => {
-    let validation = validationResult(req);
-    if (!validation.isEmpty()) {
-        req.flash('error', validation.array().map(e => e.msg));
-        return res.redirect('back');
-    }
-
     cartItemsModel
         .getCartItemByUserAndProduct(req.session.userId, req.body.productId)
         .then(item => {
@@ -47,12 +40,6 @@ exports.postCart = (req, res, next) => {
 
 /** @type {import("express").RequestHandler} */
 exports.updateCartItem = (req, res, next) => {
-    let validation = validationResult(req);
-    if (!validation.isEmpty()) {
-        req.flash('error', validation.array().map(e => e.msg));
-        return res.redirect('back');
-    }
-
     cartItemsModel
         .updateCartItem(req.params.itemId, req.body.quantity)
         .then(() => {
@@ -67,12 +54,6 @@ exports.updateCartItem = (req, res, next) => {
 
 /** @type {import("express").RequestHandler} */
 exports.deleteCartItem = (req, res, next) => {
-    let validation = validationResult(req);
-    if (!validation.isEmpty()) {
-        req.flash('error', validation.array().map(e => e.msg));
-        return res.redirect('back');
-    }
-
     cartItemsModel
         .deleteCartItem(req.params.itemId)
         .then(() => {

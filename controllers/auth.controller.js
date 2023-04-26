@@ -1,5 +1,4 @@
 const usersModel = require('../models/users.model');
-const validationResult = require('express-validator').validationResult;
 
 /** @type {import("express").RequestHandler} */
 exports.getLogin = (req, res, next) => {
@@ -8,12 +7,6 @@ exports.getLogin = (req, res, next) => {
 
 /** @type {import("express").RequestHandler} */
 exports.postLogin = (req, res, next) => {
-    let validation = validationResult(req);
-    if (!validation.isEmpty()) {
-        req.flash('error', validation.array().map(e => e.msg));
-        return res.redirect('/login');
-    }
-
     usersModel
         .getUser(req.body.email)
         .then(user => {
@@ -38,19 +31,12 @@ exports.getSignup = (req, res, next) => {
 
 /** @type {import("express").RequestHandler} */
 exports.postSignup = (req, res, next) => {
-    let validation = validationResult(req);
-    if (!validation.isEmpty()) {
-        req.flash('error', validation.array().map(e => e.msg));
-        return res.redirect('/signup');
-    }
-
-    let body = req.body;
     usersModel
-        .getUser(body.email)
+        .getUser(req.body.email)
         .then((user) => {
             if (user) throw new Error('This user already exists');
             else {
-                return usersModel.createUser(body.username, body.email, body.password);
+                return usersModel.createUser(req.body.username, req.body.email, req.body.password);
             }
         })
         .then(() => {
