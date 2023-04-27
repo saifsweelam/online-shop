@@ -51,6 +51,11 @@ app.use('/cart', cartRouter);
 app.use('/orders', ordersRouter);
 app.use('/admin', adminRouter);
 
+// 404 Handler
+app.use((req, res, next) => {
+    res.status(404).render('404');
+})
+
 app.listen(
     config.deploy.port,
     () => console.log(`Server running on port ${config.deploy.port}`)
