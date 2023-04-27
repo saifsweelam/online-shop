@@ -92,6 +92,17 @@ exports.addProduct = [
         })
 ];
 
+exports.updateOrder = [
+    param('orderId')
+        .notEmpty().withMessage('You have to specify the Order ID')
+        .bail()
+        .isMongoId().withMessage('Invalid Order ID'),
+    check('status')
+        .notEmpty().withMessage('You haven\'t selected a new status for the order')
+        .bail()
+        .isIn(['pending', 'sent', 'received']).withMessage('Invalid status value')
+]
+
 /** @type {import("express").RequestHandler} */
 exports.requireValidation = (req, res, next) => {
     let validation = validationResult(req);

@@ -1,0 +1,62 @@
+<%- include('../parts/header.ejs') %>
+
+<div class="p-3 container">
+    <%- include('../parts/alerts.ejs') %>
+
+    <form method="GET" class="my-3">
+        <select name="status" id="statusInput" class="form-control my-2">
+            <option value="all">All</option>
+            <option value="pending">Pending</option>
+            <option value="sent">Sent</option>
+            <option value="received">Received</option>
+        </select>
+
+        <input type="email" name="email" id="emailInput" class="form-control my-2" placeholder="Email">
+
+        <input type="submit" value="Filter" class="btn btn-primary my-2">
+    </form>
+
+    <% if (orders.length) { %>
+        <table class="my-2 table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Address</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for (let i = 0; i < orders.length; i++) { %>
+                    <% let order = orders[i] %>
+                    <form action="/admin/orders/<%= order._id %>/update" method="post">
+                        <tr>
+                            <th scope="row"><%= i+1 %></th>
+                            <td><%= order.product.name %></td>
+                            <td><%= order.quantity %></td>
+                            <td>$<%= order.quantity * order.product.price %></td>
+                            <td>
+                                <select class="form-control" name="status" id="statusInput">
+                                    <option value="pending" <%= order.status == 'pending' ? 'selected' : '' %>>Pending</option>
+                                    <option value="sent" <%= order.status == 'sent' ? 'selected' : '' %>>Sent</option>
+                                    <option value="received" <%= order.status == 'received' ? 'selected' : '' %>>Received</option>
+                                </select>
+                            </td>
+                            <td><%= order.address %></td>
+                            <td>
+                                <input type="submit" class="btn btn-success" value="Update">
+                            </td>
+                        </tr>
+                    </form>
+                <% } %>
+            </tbody>
+        </table>
+    <% } else { %>
+        <h2 class="display-1">No orders to show</h2>
+    <% } %>
+</div>
+
+<%- include('../parts/footer.ejs') %>

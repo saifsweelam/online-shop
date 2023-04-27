@@ -52,7 +52,7 @@ exports.accessOrder = (req, res, next) => {
                 return res.redirect('back');
             }
 
-            if (!order.userId.equals(req.session.userId)) {
+            if (!(order.userId.equals(req.session.userId) || req.session.isAdmin)) {
                 req.flash('error', 'You don\'t have access to this Order');
                 return res.redirect('back');
             }
