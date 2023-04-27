@@ -10,3 +10,15 @@ exports.getProducts = (category) => {
 exports.getProductById = (id) => {
     return db.connect(() => Product.findById(id));
 }
+
+exports.createProduct = (name, price, category, description, image) => {
+    let product = new Product({
+        name: name,
+        price: price,
+        category: category,
+        description: description,
+        image: image
+    })
+
+    return db.connect(() => product.save());
+}

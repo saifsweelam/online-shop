@@ -2,6 +2,7 @@ const path = require('path');
 const crypto = require('crypto');
 const session = require('express-session');
 const SessionStore = require('connect-mongodb-session')(session);
+const { diskStorage } = require('multer')
 
 module.exports = new function() {
     this.deploy = {
@@ -19,6 +20,13 @@ module.exports = new function() {
 
     this.thumbnails = {
         dir: path.join(__dirname, 'thumbnails')
+    }
+
+    this.upload = {
+        storage: diskStorage({
+            destination: (req, file, callback) => callback(null, this.thumbnails.dir),
+            filename: (req, file, callback) => callback(null, `${Date.now()}-${file.originalname}`)
+        })
     }
 
     this.db = {

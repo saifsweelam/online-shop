@@ -1,7 +1,7 @@
 <%- include('../parts/header.ejs') %>
 
 <% if (orders.length) { %>
-    <div class="p-3">
+    <div class="p-3 container">
         <%- include('../parts/alerts.ejs') %>
 
         <table class="my-2 table table-hover">
@@ -11,6 +11,7 @@
                     <th scope="col">Product</th>
                     <th scope="col">Quantity</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Address</th>
                     <th scope="col"></th>
                 </tr>
@@ -23,6 +24,7 @@
                         <td><%= order.product.name %></td>
                         <td><%= order.quantity %></td>
                         <td>$<%= order.quantity * order.product.price %></td>
+                        <td><%= order.status %></td>
                         <td><%= order.address %></td>
                         <td>
                             <form action="/orders/<%= order._id %>/cancel" method="post">

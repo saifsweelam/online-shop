@@ -25,14 +25,22 @@ const orderSchema = new mongoose.Schema({
     },
     product: productSchema,
     quantity: Number,
-    timeAdded: Date,
-    address: String
+    timeUpdated: Date,
+    address: String,
+    status: {
+        type: String,
+        default: 'pending'
+    }
 })
 
 const userSchema = new mongoose.Schema({
     username: String,
     email: String,
-    password: String
+    password: String,
+    isAdmin: {
+        type: Boolean,
+        default: false
+    }
 })
 
 exports.Product = mongoose.model('Product', productSchema);

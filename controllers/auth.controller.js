@@ -16,6 +16,7 @@ exports.postLogin = (req, res, next) => {
         })
         .then(user => {
             req.session.userId = user._id;
+            req.session.isAdmin = user.isAdmin;
             res.redirect('/');
         })
         .catch((err) => {

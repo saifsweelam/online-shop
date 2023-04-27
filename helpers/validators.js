@@ -76,6 +76,22 @@ exports.deleteOrder = [
         .isMongoId().withMessage('The Order ID is invalid'),
 ];
 
+exports.addProduct = [
+    check('name')
+        .notEmpty().withMessage('Product Name is required'),
+    check('price')
+        .notEmpty().withMessage('Product Price is required')
+        .bail()
+        .isInt({min: 1}).withMessage('Price isn\'t a valid number'),
+    check('category')
+        .notEmpty().withMessage('Category is required'),
+    check('image')
+        .custom((value, {req}) => {
+            if (!req.file) throw new Error("Product Image is required");
+            return true;
+        })
+];
+
 /** @type {import("express").RequestHandler} */
 exports.requireValidation = (req, res, next) => {
     let validation = validationResult(req);

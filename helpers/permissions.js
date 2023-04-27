@@ -14,6 +14,16 @@ exports.requiresNoAuth = ({ session }, res, next) => {
 }
 
 /** @type {import("express").RequestHandler} */
+exports.requiresAdmin = (req, res, next) => {
+    if (!req.session.isAdmin) {
+        req.flash('You don\'t have admin access');
+        return res.redirect('/');
+    }
+
+    next();
+}
+
+/** @type {import("express").RequestHandler} */
 exports.accessCartItem = (req, res, next) => {
     cartItemsModel
         .getCartItemById(req.params.itemId)

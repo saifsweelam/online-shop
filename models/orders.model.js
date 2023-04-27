@@ -16,7 +16,7 @@ exports.createOrder = ({product, userId, quantity}, address) => {
         product: product,
         quantity: quantity,
         address: address,
-        timeAdded: Date.now()
+        timeUpdated: Date.now()
     })
 
     return db.connect(() => order.save());
@@ -28,7 +28,7 @@ exports.createManyOrders = (items, address) => {
         product: item.product,
         quantity: item.quantity,
         address: address,
-        timeAdded: Date.now()
+        timeUpdated: Date.now()
     }))
 
     return db.connect(() => Order.insertMany(orders));

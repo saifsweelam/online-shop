@@ -1,0 +1,37 @@
+<%- include('../parts/header.ejs') %>
+
+<form class="p-4" method="POST" enctype="multipart/form-data">
+    <h2 class="text-center">Add New Product</h2>
+
+    <%- include('../parts/alerts.ejs') %>
+
+    <div class="form-group my-3">
+        <label for="nameInput">Name</label>
+        <input type="text" class="form-control" name="name" id="nameInput" placeholder="Enter name" required>
+    </div>
+    <div class="form-group my-3">
+        <label for="priceInput">Price</label>
+        <input type="number" class="form-control" name="price" id="priceInput" placeholder="Enter price" min="1" required>
+    </div>
+    <div class="form-group my-3">
+        <label for="descriptionInput">Description</label>
+        <textarea class="form-control" name="description" id="descriptionInput" placeholder="Description"></textarea>
+    </div>
+    <div class="form-group my-3">
+        <label for="categoryInput">Category</label>
+        <select name="category" id="categoryInput" class="form-control" required>
+            <option value="home">Home</option>
+            <option value="clothes">Clothes</option>
+            <option value="devices">Devices</option>
+            <option value="books">Books</option>
+        </select>
+    </div>
+    <div class="form-group my-3">
+        <label for="imageInput">Image</label>
+        <input type="file" class="form-control" name="image" id="imageInput">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Add</button>
+</form>
+
+<%- include('../parts/footer.ejs') %>
