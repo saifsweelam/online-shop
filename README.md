@@ -1,6 +1,6 @@
 # Online Shop
 
-Express-MongoDB Online Shopping Web Application
+Express-MongoDB MVC Online Shopping Web Application
 
 ## Tutorial
 
@@ -9,6 +9,6 @@ Express-MongoDB Online Shopping Web Application
 ## Run locally
 
 * Clone the repository
-* Set `SHOP_DB_URI` enviromental variable to a `MongoDB` database uri
+* Set `SHOP_DB_URI` enviromental variable to a `MongoDB` database uri _(Default: `mongodb://127.0.0.1:27017/online-shop`)_
 * Run ```npm install``` then ```npm start```
 * Visit [localhost:3000](http://localhost:3000)
